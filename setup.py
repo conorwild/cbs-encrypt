@@ -11,8 +11,8 @@ setuptools.setup(
     description="A library of for generating keys, encrypting and uncrypting files",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url=TBD",
-    packages=['cbssymencrypt'],
+    url="TBD",
+    packages=['cbs_encrypt'],
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -20,7 +20,12 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'cryptographgy',
+        'cryptography',
     ],
-
+    entry_points={
+        'console_scripts': [
+            'cbs_encrypt=cbs_encrypt.file_encrypt:main',
+            'cbs_decrypt=cbs_encrypt.file_decrypt:main',
+        ]
+    }
 )
