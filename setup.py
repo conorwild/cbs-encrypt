@@ -26,6 +26,7 @@ setuptools.setup(
         'console_scripts': [
             'cbs_encrypt=cbs_encrypt.file_encrypt:main',
             'cbs_decrypt=cbs_encrypt.file_decrypt:main',
+            'cbs_genkey=cbs_encrypt.generate_passkey:main',
         ]
     }
 )
