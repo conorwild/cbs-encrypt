@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="TBD",
-    packages=['cbs_encrypt'],
+    packages=['cbsencrypt'],
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -26,7 +26,7 @@ setuptools.setup(
         'console_scripts': [
             'cbs_encrypt=cbsencrypt.cbsencrypt:encrypt_files_cmdline',
             'cbs_decrypt=cbsencrypt.cbsencrypt:decrypt_files_cmdline',
-            'cbs_genkey=cbs_encrypt.generate_passkey:main',
+            'cbs_genkey=cbsencrypt.generate_passkey:main',
         ]
     }
 )

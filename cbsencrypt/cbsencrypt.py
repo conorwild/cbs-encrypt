@@ -1,3 +1,4 @@
+from argparse import ArgumentError
 import sys
 import os
 from cryptography.fernet import Fernet
@@ -20,9 +21,7 @@ def encrypt_files(files):
         with open(e_filename, 'wb') as wf:
             wf.write(encrypted_data)
 
-def encrypt_files_cmdline():
-    encrypt_files(sys.argv[1:])
-    print('DONE')
+
 
 def decrypt_files(files):
     cipher = Fernet(ask_for_key())
@@ -48,8 +47,19 @@ def decrypt_file_to_bytestream(filename, key=None):
     decrypted_data = cipher.decrypt(e_file)
     return BytesIO(decrypted_data)
 
+def check_files(files):
+    if len(files) == 0:
+        raise ValueError("No filenames provided.")
+    return files
+
 def decrypt_files_cmdline():
-    decrypt_files(sys.argv[1:])
+    files = sys.argv[1:]
+    decrypt_files(check_files(files))
+    print('DONE')
+
+def encrypt_files_cmdline():
+    files = sys.argv[1:]
+    encrypt_files(check_files(files))
     print('DONE')
 
 
