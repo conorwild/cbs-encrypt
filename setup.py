@@ -20,7 +20,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'cryptography',
+        'cryptography', 'argparse'
     ],
     entry_points={
         'console_scripts': [
