@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="cbs_encrypt",
-    version="0.0.1",
+    name="cbsencrypt",
+    version="0.0.2",
     author="Conor J. Wild",
     author_email="conor.wild@cambridgebrainsciences.com",
     description="A library of for generating keys, encrypting and uncrypting files",
@@ -24,8 +24,8 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'cbs_encrypt=cbs_encrypt.cbs_encrypt:encrypt_files_cmdline',
-            'cbs_decrypt=cbs_encrypt.cbs_encrypt:decrypt_files_cmdline',
+            'cbs_encrypt=cbsencrypt.cbsencrypt:encrypt_files_cmdline',
+            'cbs_decrypt=cbsencrypt.cbsencrypt:decrypt_files_cmdline',
             'cbs_genkey=cbs_encrypt.generate_passkey:main',
         ]
     }
