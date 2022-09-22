@@ -6,7 +6,7 @@ import argparse
 import os
 from cryptography.fernet import Fernet
 from io import BytesIO
-
+import pandas as pd
 
 class Crypt():
 
@@ -73,11 +73,17 @@ class Crypt():
             with open(d_filename, 'wb') as wf:
                 wf.write(decrypted_data)
 
-    def decrypt_file_to_bytestream(self, filename, key=None):
+    def decrypt_file_to_bytestream(self, filename):
         with open(filename, 'rb') as rf:    
             e_file = rf.read()
         decrypted_data = self.decrypt(e_file)
         return BytesIO(decrypted_data)
+
+    def decrypt_csv_to_pandas(self, csv_file):
+        return (
+            pd.read_csv(self.decrypt_file_to_bytestream(csv_file))
+        )
+
 
     @classmethod
     def check_files(cls, files):
