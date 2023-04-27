@@ -1,3 +1,3 @@
 from .cbsencrypt import (
-    Crypt,
+    Crypt, EncryptedData
 )
