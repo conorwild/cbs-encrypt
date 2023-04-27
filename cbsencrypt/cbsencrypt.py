@@ -1,12 +1,10 @@
-from argparse import ArgumentError
 from pathlib import Path
 from os import path
-import sys
 import argparse
-import os
 from cryptography.fernet import Fernet
 from io import BytesIO
 import pandas as pd
+
 
 class Crypt():
 
@@ -14,9 +12,12 @@ class Crypt():
     def request_key(cls):
         return input("Enter your key: ")
 
-    def __init__(self, key=None):
-        if key is None:
+    def __init__(self, key=None, keyfile=None):
+        if (key is None) & (keyfile is None):
             key = self.request_key()
+        elif keyfile is not None:
+            with open(keyfile, 'r') as rf:
+                key = rf.read()
         self._cipher = Fernet(key)
 
     def encrypt(self, contents):
@@ -74,7 +75,7 @@ class Crypt():
                 wf.write(decrypted_data)
 
     def decrypt_file_to_bytestream(self, filename):
-        with open(filename, 'rb') as rf:    
+        with open(filename, 'rb') as rf:
             e_file = rf.read()
         decrypted_data = self.decrypt(e_file)
         return BytesIO(decrypted_data)
@@ -84,7 +85,6 @@ class Crypt():
             pd.read_csv(self.decrypt_file_to_bytestream(csv_file))
         )
 
-
     @classmethod
     def check_files(cls, files):
         if len(files) == 0:
@@ -92,15 +92,37 @@ class Crypt():
         for file in files:
             if not path.exists(file):
                 raise OSError(f"{file} does not exist.")
-                
         return files
+
+
+class EncryptedData():
+
+    def __init__(self, filename, keyfile):
+        self._data = None
+        self._filename = filename
+        self._keyfile = keyfile
+
+        with open(self._keyfile, 'r') as rf:
+            _key = rf.read()
+        self._cipher = Crypt(_key)
+
+    @property
+    def data(self):
+        if self._data is None:
+            self._data = (
+                self.cipher.decrypt_csv_to_pandas(self._filename)
+            )
+        return self._data
+
+    def reload(self):
+        self._data = None
 
 
 def decrypt_files_cmdline():
     parser = argparse.ArgumentParser(description='Decrypt some files.')
     parser.add_argument(
         '-o', '--output-directory', type=str,
-        help='A location to save the decrypted files, defaults to same directory.'
+        help='A location to save decrypted files, defaults to same directory.'
     )
     parser.add_argument(
         'files', metavar='filename', type=str, nargs='+',
