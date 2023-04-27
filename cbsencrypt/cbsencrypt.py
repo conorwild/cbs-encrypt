@@ -110,7 +110,7 @@ class EncryptedData():
     def data(self):
         if self._data is None:
             self._data = (
-                self.cipher.decrypt_csv_to_pandas(self._filename)
+                self._cipher.decrypt_csv_to_pandas(self._filename)
             )
         return self._data
 
